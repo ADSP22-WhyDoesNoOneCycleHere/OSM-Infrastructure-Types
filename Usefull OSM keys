@@ -1,0 +1,16 @@
+https://wiki.openstreetmap.org/wiki/Map_features
+
+barrier -> barriers on the side of the road/between bike lane and highway
+highway -> Different types of ways (can be used by pedestrians, cars, bikes, busses)
+cycleway -> Specific key for cycleways, ranges from shared to seperate paths and the direction they go in compared to other traffic
+bycicle_road -> Road designated for bycicles
+lanes -> Number of traffic lanes
+oneway -> one way street
+highway:crossing -> crosswalk
+highway:roundabout
+highway:street_lamp (???)
+public_transport -> mostly refers to location and elements of a stop for public transport
+railway -> types of railways (:tram might be most relevant)
+railway:embedded_rails -> highway used for other types of transport with embedded railway tracks
+railway:switch -> connection between railways ("Weiche")
+Restrictions -> Might be interesting for roads that restrict bycicle access
