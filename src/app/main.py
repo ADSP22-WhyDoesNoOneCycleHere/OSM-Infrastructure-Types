@@ -1,7 +1,11 @@
+from sqlite3 import adapt
 from fastapi import FastAPI
 import requests as req
+from osmapi import OsmApi
 
 app = FastAPI()
+
+osm = OsmApi()
 
 @app.on_event("startup")
 async def startup_event():
@@ -11,8 +15,8 @@ async def startup_event():
 async def shutdown_event():
     print("shutdown")
 
-@app.get("/test/{id}")
-async def test(id):
-    print(id)
+@app.get("/")
+async def test():
 
-    return { "message": "Success!" }
+    return osm.NodeGet(123)
+    
