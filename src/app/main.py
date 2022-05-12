@@ -2,6 +2,8 @@ from fastapi import FastAPI
 import requests as req
 import overpy
 
+from app.queries.car_infra import Roads
+
 from .queries import *
 
 app = FastAPI()
