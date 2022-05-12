@@ -12,4 +12,5 @@ https://mateuszwiza.medium.com/how-to-count-the-number-of-buildings-in-an-area-b
 ## Overpass QL
 
 https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL
+
 https://osm-queries.ldodds.com/tutorial/index.html
