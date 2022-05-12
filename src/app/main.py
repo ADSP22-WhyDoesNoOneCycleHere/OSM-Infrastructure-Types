@@ -2,7 +2,7 @@ from fastapi import FastAPI
 import requests as req
 import overpy
 
-from .queries import *
+from .queries.roads import *
 
 app = FastAPI()
 
