@@ -1,11 +1,12 @@
-from sqlite3 import adapt
 from fastapi import FastAPI
 import requests as req
-from osmapi import OsmApi
+import overpy
+
+from .queries import *
 
 app = FastAPI()
 
-osm = OsmApi()
+api = overpy.Overpass()
 
 @app.on_event("startup")
 async def startup_event():
@@ -17,6 +18,7 @@ async def shutdown_event():
 
 @app.get("/")
 async def test():
-
-    return osm.NodeGet(123)
+    query = "node(50.745,7.17,50.75,7.18);out;"
+    print(api.query(query).nodes[0].id) 
+    return { "message": "success" }
     
