@@ -1,5 +1,7 @@
 # OSM-Infrastructure-Types
 
+This service provides data about OpenStreetMaps infrastructure types for specified routes and areas.
+
 ## Startup
 
  `docker-compose up`
