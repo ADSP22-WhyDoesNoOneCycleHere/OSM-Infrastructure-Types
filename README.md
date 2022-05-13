@@ -6,7 +6,7 @@
 
  ## API
 
- `/`
+ ### /
 
  - for testing purposes
 
