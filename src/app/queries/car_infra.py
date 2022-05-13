@@ -2,7 +2,7 @@
 
 class Roads:
 
-    # Roads
+    # Highway - Roads
 
     def motorway():
         return 0
@@ -26,7 +26,7 @@ class Roads:
         return 0
 
     
-    # Link Roads
+    # Highway - Link Roads
 
     def motorwayLink():
         return 0
@@ -44,7 +44,7 @@ class Roads:
         return 0
 
 
-    # Special Road Types
+    # Highway - Special Road Types
     
     def livingStreet():
         return 0
