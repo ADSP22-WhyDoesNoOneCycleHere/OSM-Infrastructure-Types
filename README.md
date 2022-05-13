@@ -4,6 +4,12 @@
 
  `docker-compose up`
 
+ ## API
+
+ `/`
+
+ - for testing purposes
+
 ## Overpass API (Python wrapper)
 https://python-overpy.readthedocs.io/en/latest/introduction.html
 
