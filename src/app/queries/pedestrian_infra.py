@@ -2,7 +2,7 @@
 
 class Paths:
 
-    # Paths
+    # Highway - Paths
 
     def footway():
         return 0
@@ -20,7 +20,7 @@ class Paths:
         return 0
 
 
-    # Sidewalk
+    # Footway - Sidewalk
 
     def sidewalk():
         return 0
