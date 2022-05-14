@@ -1,9 +1,8 @@
+from pprint import pprint
 from fastapi import FastAPI
 import requests as req
 import overpy
 from app.queries.bicycle_infra import Cycleway
-
-from app.queries.car_infra import Roads
 
 from .queries import *
 
@@ -22,7 +21,10 @@ async def shutdown_event():
 @app.get("/")
 async def test():
 
-    print(api.query(Cycleway.cycleway()).nodes[0].id) 
-    
+    c = Cycleway()
+
+    result = api.query(Cycleway.shared_residential_parking(c))
+
+    pprint(result.ways)
+
     return { "message": "success" }
-    
