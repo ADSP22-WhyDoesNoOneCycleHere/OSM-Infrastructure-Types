@@ -12,117 +12,130 @@ class Cycleway:
         # could also be changed to use node rather than "way" if not only nodes are relevant
         return "[out:json]; way(" + sw + "," + ne + ")"
 
-    # Highway - Independent Cycleway
+    # This might not work as intended, if there is overlap -> Maybe put most specific types first??
+    def get_types(self, way):
+        if self.lane(way):
+            return "Lane"
+        elif self.right_lane(way):
+            return "Right Lane"
+        elif self.both_lane(way):
+            return "Both Lane"
+        elif self.opposite(way):
+            return "Opposite"
+        elif self.opposite_lane(way):
+            return "Opposite Lane"
+        elif self.track(way):
+            return "Track"
+        elif self.right_track(way):
+            return "Right Track"
+        elif self.opposite_track(way):
+            return "Opposite Track"
+        elif self.share_busway(way):
+            return "Share Busway"
+        elif self.share_busway_right(way):
+            return "Share Busway Right"
+        elif self.share_busway_left(way):
+            return "Share Busway Left"
+        elif self.opposite_share_busway(way):
+            return "Opposite Share Busway"
+        elif self.shared_lane(way):
+            return "Shared Lane"
+        elif self.shared_residential_parking(way):
+            return "Shared Residential Parking"
+        elif self.shared_lane_residential(way):
+            return "Shared Lane Residential"
+        elif self.busway(way):
+            return "Busway"
+        elif self.cycleway(way):
+            return "Cycleway"
 
-    def cycleway(self):
-        return_s = Cycleway.query_area(self, Cycleway.default_sw, Cycleway.default_ne)
+    # Might be a bit to general
+    def cycleway(self, way):
+        return way["highway"] == "cycleway"
 
-        return_s += "[highway=cycleway]"
+    def lane(self, way):
+        if "cycleway" in way:
+            return way["cycleway"] == "lane"
 
-        return return_s + Cycleway.out
+    def right_lane(self, way):
+        if "cycleway:right" in way:
+            return way["cycleway:right"] == "lane"
 
-    # Cycleway - Shared Cycleway
+    def both_lane(self, way):
+        if "cycleway:both" in way:
+            return way["cycleway:both"] == "lane"
 
-    def lane(self):
-        return_s = Cycleway.query_area(self, Cycleway.default_sw, Cycleway.default_ne)
+    def opposite(self, way):
+        if "cycleway" in way:
+            return way["cycleway"] == "opposite"
 
-        return_s += "[cycleway=lane]"
+    def opposite_lane(self, way):
+        if "cycleway" in way:
+            return way["cycleway"] == "opposite_lane"
 
-        return return_s + Cycleway.out
+    def track(self, way):
+        if "cycleway" in way:
+            return way["cycleway"] == "track"
 
-    def right_lane(self):
-        return_s = Cycleway.query_area(self, Cycleway.default_sw, Cycleway.default_ne)
+    # Distinction with track might be unnecessary
+    def right_track(self, way):
+        if "cycleway:right" in way:
+            return way["cycleway:right"] == "track"
 
-        return_s += "[highway]['cycleway:right'=lane]"
+    def opposite_track(self, way):
+        if "cycleway" in way:
+            return way["cycleway"] == "opposite_track"
 
-        return return_s + Cycleway.out
+    def share_busway(self, way):
+        if "cycleway" in way:
+            return way["cycleway"] == "share_busway"
 
-    def opposite(self):
-        return_s = Cycleway.query_area(self, Cycleway.default_sw, Cycleway.default_ne)
+    def share_busway_right(self, way):
+        if "cycleway:right" in way:
+            return way["cycleway:right"] == "share_busway"
 
-        return_s += "[cycleway=opposite]"
+    def share_busway_left(self, way):
+        if "cycleway:left" in way:
+            return way["cycleway:left"] == "share_busway"
 
-        return return_s + Cycleway.out
+    def opposite_share_busway(self, way):
+        if "cycleway" in way:
+            return way["cycleway"] == "opposite_share_busway"
+        elif "cycleway:opposite" in way:
+            return way["cycleway:opposite"] == "share_busway"
 
-    def opposite_lane(self):
-        return_s = Cycleway.query_area(self, Cycleway.default_sw, Cycleway.default_ne)
-
-        return_s += "[cycleway=opposite_lane]"
-
-        return return_s + Cycleway.out
-
-    def track(self):
-        return_s = Cycleway.query_area(self, Cycleway.default_sw, Cycleway.default_ne)
-
-        return_s += "[cycleway=track]"
-        # "[highway]['cycleway:right'=track]"
-
-        return return_s + Cycleway.out
-
-    def right_track(self):
-        return_s = Cycleway.query_area(self, Cycleway.default_sw, Cycleway.default_ne)
-
-        return_s += "[highway]['cycleway:right'=track]"
-
-        return return_s + Cycleway.out
-
-    def opposite_track(self):
-        return_s = Cycleway.query_area(self, Cycleway.default_sw, Cycleway.default_ne)
-
-        return_s += "[cycleway=opposite_track]"
-
-        return return_s + Cycleway.out
-
-    def share_busway(self):
-        return_s = Cycleway.query_area(self, Cycleway.default_sw, Cycleway.default_ne)
-
-        return_s += "[cycleway=share_busway]"
-
-        return return_s + Cycleway.out
-
-    def share_busway_right(self):
-        return_s = Cycleway.query_area(self, Cycleway.default_sw, Cycleway.default_ne)
-
-        return_s += "[highway]['cycleway:right'=share_busway]"
-
-        return return_s + Cycleway.out
-
-    def opposite_share_busway(self):
-        return_s = Cycleway.query_area(self, Cycleway.default_sw, Cycleway.default_ne)
-
-        return_s += "[cycleway=opposite_share_busway]"
-        # "way['cycleway:opposite'=share_busway]"
-
-        return return_s + Cycleway.out
-
-    def shared_lane(self):
-        return_s = Cycleway.query_area(self, Cycleway.default_sw, Cycleway.default_ne)
-
-        return_s += "[cycleway=shared_lane]"
-
-        return return_s + Cycleway.out
+    def shared_lane(self, way):
+        if "cycleway" in way:
+            return way["cycleway"] == "shared_lane"
 
     # Residential streets that do not specifically disallow bikes and therefore have shared lanes
-    def shared_lane_residential(self):
-        return_s = Cycleway.query_area(self, Cycleway.default_sw, Cycleway.default_ne)
+    def shared_lane_residential(self, way):
+        if "highway" in way and "bicycle" in way:
+            return way["highway"] == "residential" and way["bicycle"] != "no" and "cycleway" not in way
+        # Disallowing cycleways might be unnecessary
 
-        return_s += "[highway=residential][bicycle!=no][!cycleway]"
-
-        return return_s + Cycleway.out
+        if "highway" in way:
+            return way["highway"] == "residential" and "cycleway" not in way
 
     # Residential streets like above, but with possibility for parking (there might be overlap between the two!)
-    def shared_residential_parking(self):
+    def shared_residential_parking(self, way):
+        parking = {True for k, v in way.items() if k.startswith('parking')}  # TODO: Check for this
+
+        if "highway" in way and "bicycle" in way:
+            return way["highway"] == "residential" and way["bicycle"] != "no" and "cycleway" not in way and parking
+
+        if "highway" in way:
+            return way["highway"] == "residential" and "cycleway" not in way and parking
+
+        """
         return_s = Cycleway.query_area(self, Cycleway.default_sw, Cycleway.default_ne)
 
         return_s += "[highway=residential][bicycle!=no][~'^parking:.*$'~'.'][!cycleway]"
 
         return return_s + Cycleway.out
+        """
 
     # Busway
-
-    def busway(self):
-        return_s = Cycleway.query_area(self, Cycleway.default_sw, Cycleway.default_ne)
-
-        return_s += "[busway=lane]"
-
-        return return_s + Cycleway.out
+    def busway(self, way):
+        if "busway" in way:
+            return way["busway"] == "lane"

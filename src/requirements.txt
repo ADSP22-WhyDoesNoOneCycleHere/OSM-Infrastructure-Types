@@ -2,4 +2,4 @@ uvicorn
 fastapi
 requests
 validators
-overpy
+overpass
