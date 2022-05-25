@@ -22,7 +22,14 @@ async def shutdown_event():
 @app.get("/")
 async def test():
 
-    print(api.query(Cycleway.cycleway()).nodes[0].id) 
+    print(Cycleway.cycleway())
+
+    res = api.query(Cycleway.cycleway())
+
+    print(res)#.nodes[0].id)
     
+    #print(api.query(Cycleway.cycleway()).parse_json()) 
+    
+
     return { "message": "success" }
     
