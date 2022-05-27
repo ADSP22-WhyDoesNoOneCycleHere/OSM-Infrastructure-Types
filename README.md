@@ -18,6 +18,8 @@ This service provides data about OpenStreetMaps infrastructure types for specifi
 
 https://github.com/gappleto97/overpassify
 
+https://github.com/mvexel/overpass-api-python-wrapper
+
 https://python-overpy.readthedocs.io/en/latest/introduction.html
 
 https://mateuszwiza.medium.com/how-to-count-the-number-of-buildings-in-an-area-by-category-using-openstreetmap-api-7163d77289e9
