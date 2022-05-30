@@ -36,3 +36,11 @@ async def test():
         result.append(w)
 
     return result
+
+@app.post("/area")
+async def area(body):
+    sw = body["sw"]
+    ne = body["ne"]
+    infra_type = body["infra_type"]
+
+    Cycleway.get_types(sw, ne, infra_type)
