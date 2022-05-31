@@ -1,15 +1,10 @@
-import json
-from pprint import pprint
-from fastapi import FastAPI
-import requests as req
-import overpass
-from app.queries.bicycle_infra import Cycleway
+from lib2to3.pytree import Base
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 
-from .queries import *
+from .highway import *
 
 app = FastAPI()
-
-api = overpass.API()
 
 @app.on_event("startup")
 async def startup_event():
@@ -22,25 +17,22 @@ async def shutdown_event():
 @app.get("/")
 async def test():
 
-    c = Cycleway()
+    return Highway.get_types()
 
-    result = api.get('area[name=Halensee]->.a; way(area.a)[highway]',
-                     responseformat='json')
-
-    ways = result.get('elements')
-
-    result = []
-
-    for w in ways:
-        w['tags']['infra_type'] = Cycleway.get_types(c, w['tags'])
-        result.append(w)
-
-    return result
+class Area(BaseModel):
+    sw: str
+    ne: str
+    infra_type: str
 
 @app.post("/area")
-async def area(body):
-    sw = body["sw"]
-    ne = body["ne"]
-    infra_type = body["infra_type"]
+async def area(area: Area):
+    sw = area["sw"]
+    ne = area["ne"]
+    infra_type = area["infra_type"]
 
-    Cycleway.get_types(sw, ne, infra_type)
+    result = Highway.get_types(sw, ne, infra_type)
+
+    if result is None:
+        raise HTTPException(status_code=400, detail="Wrong feature!")
+
+    return result
