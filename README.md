@@ -8,9 +8,29 @@ This service provides data about OpenStreetMaps infrastructure types for specifi
 
  ## API
 
- ### /
+ ### GET /
 
  - for testing purposes
+
+ ### POST /area
+
+#### Returns:
+
+- OSM JSON
+
+#### Request Body:
+
+sw: str
+
+- south-west coordinate of area
+
+ne: str
+
+- north-west coordinate of area
+
+infra_type: str
+
+- infrastructure type of way of area
 
 ## Resources
 
