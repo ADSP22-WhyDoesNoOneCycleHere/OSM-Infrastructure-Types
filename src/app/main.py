@@ -1,14 +1,10 @@
-from pprint import pprint
-from fastapi import FastAPI
-import requests as req
-import overpy
-from app.queries.bicycle_infra import Cycleway
+from lib2to3.pytree import Base
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 
-from .queries import *
+from .highway import *
 
 app = FastAPI()
-
-api = overpy.Overpass()
 
 @app.on_event("startup")
 async def startup_event():
@@ -21,10 +17,22 @@ async def shutdown_event():
 @app.get("/")
 async def test():
 
-    c = Cycleway()
+    return Highway.get_types()
 
-    result = api.query(Cycleway.shared_residential_parking(c))
+class Area(BaseModel):
+    sw: str
+    ne: str
+    infra_type: str
 
-    pprint(result.ways)
+@app.post("/area")
+async def area(area: Area):
+    sw = area["sw"]
+    ne = area["ne"]
+    infra_type = area["infra_type"]
 
-    return { "message": "success" }
+    result = Highway.get_types(sw, ne, infra_type)
+
+    if result is None:
+        raise HTTPException(status_code=400, detail="Wrong feature!")
+
+    return result
