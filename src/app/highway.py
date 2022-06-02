@@ -9,10 +9,6 @@ class Highway:
 
     def get_types(sw="44.490204027212016, 11.269648275756735", ne="44.520311680337684, 11.433445623245943", infra_type="cycleway"):
         match infra_type:
-            case "motorway":
-                return Highway.query_area(sw, ne, "[highway = motorway]")
-            case "trunk":
-                return Highway.query_area(sw, ne, "[highway = trunk]")
             case "primary":
                 return Highway.query_area(sw, ne, "[highway = primary]")
             case "secondary":
@@ -23,6 +19,8 @@ class Highway:
                 return Highway.query_area(sw, ne, "[highway = unclassified]")
             case "residential":
                 return Highway.query_area(sw, ne, "[highway = residential]")
+            case "residential_parking":
+                return Highway.query_area(sw, ne, "[highway = residential][~'^parking:.*$'~'.'][!cycleway]")
             case "motorway_link":
                 return Highway.query_area(sw, ne, "[highway = motorway_link]")
             case "trunk_link":
@@ -41,12 +39,12 @@ class Highway:
                 return Highway.query_area(sw, ne, "[highway = pedestrian]")
             case "track":
                 return Highway.query_area(sw, ne, "[highway = track]")
+            case "right_track":
+                return Highway.query_area(sw, ne, "[highway]['cycleway:right'=track]")
             case "bus_guideway":
                 return Highway.query_area(sw, ne, "[highway = bus_guideway]")
             case "escape":
                 return Highway.query_area(sw, ne, "[highway = escape]")
-            case "raceway":
-                return Highway.query_area(sw, ne, "[highway = raceway]")
             case "road":
                 return Highway.query_area(sw, ne, "[highway = road]")
             case "busway":
@@ -55,8 +53,6 @@ class Highway:
                 return Highway.query_area(sw, ne, "[highway = footway]")
             case "bridleway":
                 return Highway.query_area(sw, ne, "[highway = bridleway]")
-            case "steps":
-                return Highway.query_area(sw, ne, "[highway = steps]")
             case "corridor":
                 return Highway.query_area(sw, ne, "[highway = corridor]")
             case "path":
@@ -69,6 +65,8 @@ class Highway:
                 return Highway.query_area(sw, ne, "[highway = cycleway]")
             case "lane":
                 return Highway.query_area(sw, ne, "[cycleway = lane]")
+            case "right_lane":
+                return Highway.query_area(sw, ne, "[highway]['cycleway:right'=lane]")
             case "oppposite":
                 return Highway.query_area(sw, ne, "[cycleway = oppposite]")
             case "opposite_lane":
@@ -79,15 +77,15 @@ class Highway:
                 return Highway.query_area(sw, ne, "[cycleway = opposite_track]")
             case "share_busway":
                 return Highway.query_area(sw, ne, "[cycleway = share_busway]")
+            case "share_busway_right":
+                return Highway.query_area(sw, ne, "[highway]['cycleway:right'=share_busway]")
+            case "share_busway_left":
+                return Highway.query_area(sw, ne, "[highway]['cycleway:right'=share_busway]")
             case "opposite_share_busway":
                 return Highway.query_area(sw, ne, "[cycleway = opposite_share_busway]")
             case "shared_lane":
                 return Highway.query_area(sw, ne, "[cycleway = shared_lane]")
             case "busway_lane":
                 return Highway.query_area(sw, ne, "[busway = lane]")
-            case "proposed":
-                return Highway.query_area(sw, ne, "[highway = proposed]")
-            case "construction":
-                return Highway.query_area(sw, ne, "[highway = construction]")
             case _:
                 return None
