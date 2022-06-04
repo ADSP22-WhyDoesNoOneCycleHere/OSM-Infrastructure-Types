@@ -2,86 +2,57 @@ import overpass
 
 api = overpass.API()
 
+highway = [
+            "[highway = trunk]",
+            "[highway = primary]",
+            "[highway = secondary]",
+            "[highway = tertiary]",
+            "[highway = unclassified]",
+            "[highway = residential]",
+            "[highway = residential][~'^parking:.*$'~'.'][!cycleway]",
+            "[highway = motorway_link]",
+            "[highway = trunk_link]",
+            "[highway = primary_link]",
+            "[highway = secondary_link]",
+            "[highway = tertiary_link]",
+            "[highway = living_street]",
+            "[highway = service]",
+            "[highway = pedestrian]",
+            "[highway = track]",
+            "[highway = bus_guideway]",
+            "[highway = escape]",
+            "[highway = road]",
+            "[highway = busway]",
+            "[highway = footway][bicycle = yes]", "[highway = footway][bicycle = no]", "[highway = footway]",
+            "[highway = bridleway]",
+            "[highway = steps]",
+            "[highway = corridor]",
+            "[highway = path]",
+            "[footway = sidewalk][bicycle = yes]", "[footway = sidewalk][bicycle = no]", "[footway = sidewalk]",
+            "[footway = crossing][bicycle = yes]", "[footway = crossing][bicycle = no]", "[footway = crossing]",
+            "[highway = cycleway]",
+            [ "[cycleway = lane]", "['cycleway:left' = lane]", "['cycleway:right' = lane]", "['cycleway:both' = lane]" ],
+            [ "[cycleway = oppposite]", "['cycleway:left' = oppposite]", "['cycleway:right' = oppposite]", "['cycleway:both' = oppposite]" ],
+            [ "[cycleway = opposite_lane]", "['cycleway:left' = opposite_lane]", "['cycleway:right' = opposite_lane]", "['cycleway:both' = opposite_lane]" ],
+            [ "[cycleway = track]", "['cycleway:left' = track]", "['cycleway:right' = track]", "['cycleway:both' = track]" ],
+            [ "[cycleway = opposite_track]", "['cycleway:left' = opposite_track]", "['cycleway:right' = opposite_track]", "['cycleway:both' = opposite_track]" ],
+            [ "[cycleway = share_busway]", "['cycleway:left' = share_busway]", "['cycleway:right' = share_busway]", "['cycleway:both' = share_busway]" ],
+            [ "[cycleway = opposite_share_busway]", "['cycleway:left' = opposite_share_busway]", "['cycleway:right' = opposite_share_busway]", "['cycleway:both' = opposite_share_busway]" ],
+            [ "[cycleway = shared_lane]", "['cycleway:left' = shared_lane]", "['cycleway:right' = shared_lane]", "['cycleway:both' = shared_lane]" ],
+            "[busway = lane]",
+            "[highway = construction]"
+        ]
 
 class Highway:
 
-    def query_area(sw, ne, infra_type):
-        s = ""
-        for i in infra_type:
-            s += "way" + i + "(" + sw + "," + ne + ");"
-        return api.get(s, responseformat="json")
-
-    def get_types(sw="52.526517, 13.407287", ne="52.538004, 13.440933", infra_type="track"):
-        match infra_type:
-            case "primary":
-                return Highway.query_area(sw, ne, ["[highway = primary]"])
-            case "secondary":
-                return Highway.query_area(sw, ne, ["[highway = secondary]"])
-            case "tertiary":
-                return Highway.query_area(sw, ne, ["[highway = tertiary]"])
-            case "unclassified":
-                return Highway.query_area(sw, ne, ["[highway = unclassified]"])
-            case "residential":
-                return Highway.query_area(sw, ne, ["[highway = residential]"])
-            case "residential_parking":
-                return Highway.query_area(sw, ne, ["[highway = residential][~'^parking:.*$'~'.'][!cycleway]"])
-            case "motorway_link":
-                return Highway.query_area(sw, ne, ["[highway = motorway_link]"])
-            case "trunk_link":
-                return Highway.query_area(sw, ne, ["[highway = trunk_link]"])
-            case "primary_link":
-                return Highway.query_area(sw, ne, ["[highway = primary_link]"])
-            case "secondary_link":
-                return Highway.query_area(sw, ne, ["[highway = secondary_link]"])
-            case "tertiary_link":
-                return Highway.query_area(sw, ne, ["[highway = tertiary_link]"])
-            case "living_street":
-                return Highway.query_area(sw, ne, ["[highway = living_street]"])
-            case "service":
-                return Highway.query_area(sw, ne, ["[highway = service]"])
-            case "pedestrian":
-                return Highway.query_area(sw, ne, ["[highway = pedestrian]"])
-            case "track":
-                return Highway.query_area(sw, ne, ["[highway][cycleway=track]", "[highway]['cycleway:right'=track]"])
-            case "highway_track":
-                return Highway.query_area(sw, ne, ["[highway = track]"])
-            case "bus_guideway":
-                return Highway.query_area(sw, ne, ["[highway = bus_guideway]"])
-            case "escape":
-                return Highway.query_area(sw, ne, ["[highway = escape]"])
-            case "road":
-                return Highway.query_area(sw, ne, ["[highway = road]"])
-            case "busway":
-                return Highway.query_area(sw, ne, ["[highway = busway]"])
-            case "footway":
-                return Highway.query_area(sw, ne, ["[highway = footway]"])
-            case "bridleway":
-                return Highway.query_area(sw, ne, ["[highway = bridleway]"])
-            case "corridor":
-                return Highway.query_area(sw, ne, ["[highway = corridor]"])
-            case "path":
-                return Highway.query_area(sw, ne, ["[highway = path]"])
-            case "sidewalk":
-                return Highway.query_area(sw, ne, ["[footway = sidewalk]"])
-            case "crossing":
-                return Highway.query_area(sw, ne, ["[footway = crossing]"])
-            case "cycleway":
-                return Highway.query_area(sw, ne, ["[highway = cycleway]"])
-            case "lane":
-                return Highway.query_area(sw, ne, ["[cycleway = lane]",  "[highway]['cycleway:right'=lane]"])
-            case "oppposite":
-                return Highway.query_area(sw, ne, ["[cycleway = oppposite]"])
-            case "opposite_lane":
-                return Highway.query_area(sw, ne, ["[cycleway = opposite_lane]"])
-            case "opposite_track":
-                return Highway.query_area(sw, ne, ["[cycleway = opposite_track]"])
-            case "share_busway":
-                return Highway.query_area(sw, ne, ["[cycleway = share_busway]", "[highway]['cycleway:right'=share_busway]", "[highway]['cycleway:left'=share_busway]"])
-            case "opposite_share_busway":
-                return Highway.query_area(sw, ne, ["[cycleway = opposite_share_busway]"])
-            case "shared_lane":
-                return Highway.query_area(sw, ne, ["[cycleway = shared_lane]"])
-            case "busway_lane":
-                return Highway.query_area(sw, ne, ["[busway = lane]"])
-            case _:
-                return None
+    def query_area(sw = "52.51326008267224, 13.322514165234397", ne = "52.51681153023918, 13.335043884715132"):
+        elements = { "features": [ ] }
+        for infra_types in highway:
+            if isinstance(infra_types, list):
+                for infra_type in infra_types:
+                    res = api.get("way" + infra_type + "(" + sw + "," + ne + ")", responseformat="json")
+                    elements["features"].append( { infra_type: res["elements"] } )
+            else:
+                res = api.get("way" + infra_types + "(" + sw + "," + ne + ")", responseformat="json")
+                elements["features"].append( { infra_types: res["elements"] } )
+        return elements
