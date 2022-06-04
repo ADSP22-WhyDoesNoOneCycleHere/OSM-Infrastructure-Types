@@ -52,7 +52,6 @@ class Highway:
                 query = ""
                 for infra_type in infra_types:
                     query += "way" + infra_type + "(" + sw + "," + ne + ");"
-                print(query)
                 res = api.get(query, responseformat="json")
                 elements["features"].append({infra_types[0]: res["elements"]})
             else:
