@@ -49,9 +49,12 @@ class Highway:
         elements = { "features": [ ] }
         for infra_types in highway:
             if isinstance(infra_types, list):
+                query = ""
                 for infra_type in infra_types:
-                    res = api.get("way" + infra_type + "(" + sw + "," + ne + ")", responseformat="json")
-                    elements["features"].append( { infra_type: res["elements"] } )
+                    query += "way" + infra_type + "(" + sw + "," + ne + ");"
+                print(query)
+                res = api.get(query, responseformat="json")
+                elements["features"].append({infra_types[0]: res["elements"]})
             else:
                 res = api.get("way" + infra_types + "(" + sw + "," + ne + ")", responseformat="json")
                 elements["features"].append( { infra_types: res["elements"] } )
