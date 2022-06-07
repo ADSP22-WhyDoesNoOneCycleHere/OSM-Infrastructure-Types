@@ -24,8 +24,13 @@ class Area(BaseModel):
 
 @app.post("/area")
 async def area(area: Area):
-    sw = area["sw"]
-    ne = area["ne"]
+    print(area)
+
+    sw = area.sw
+    ne = area.ne
+
+    print(sw)
+    print(ne)
 
     result = Highway.query_area(sw, ne)
 
